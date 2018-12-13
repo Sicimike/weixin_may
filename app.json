@@ -1,0 +1,10 @@
+{
+  "pages": [
+    "pages/classic/classic"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "五月的风",
+    "navigationBarTextStyle": "black"
+  }
+}
