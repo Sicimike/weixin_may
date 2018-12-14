@@ -1,14 +1,18 @@
-import {HTTP} from '../util/http.js'
+import {
+    HTTP
+} from '../util/http.js'
 
 class ClassicModel extends HTTP {
-    getLatest(sCallBack){
+    getLatest(sCallBack) {
         this.request({
-            url:'classic/latest',
+            url: 'classic/latest',
             success: (res) => {
                 sCallBack(res);
             }
-          });
+        });
     }
 }
 
-export {ClassicModel}
+export {
+    ClassicModel
+}

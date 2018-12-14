@@ -4,10 +4,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    like:{
+    like: {
       type: Boolean
     },
-    count:{
+    count: {
       type: Number
     }
   },
@@ -24,23 +24,23 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    "onLike":function(event){
+    "onLike": function (event) {
       //获取properties中变量
       let like = this.properties.like;
       let count = this.properties.count;
 
-      count = like?count-1:count+1;
+      count = like ? count - 1 : count + 1;
 
       //给页面上的变量赋值
       this.setData({
-        count:count,
-        like:!like
+        count: count,
+        like: !like
       });
 
-      let behavior = this.properties.like?'like':'cancel';
-      this.triggerEvent('like',{
-        behavior:behavior
-      },{});
+      let behavior = this.properties.like ? 'like' : 'cancel';
+      this.triggerEvent('like', {
+        behavior: behavior
+      }, {});
     }
   }
 })

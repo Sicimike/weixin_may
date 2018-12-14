@@ -1,4 +1,6 @@
-import {config} from '../config.js'
+import {
+    config
+} from '../config.js'
 
 const tips = {
     1: '抱歉，出现了未知错误',
@@ -9,37 +11,37 @@ const tips = {
 
 //封装http请求
 class HTTP {
-    request(params){
-        if(!params.method){
+    request(params) {
+        if (!params.method) {
             params.method = 'GET';
         }
         wx.request({
             url: config.api_base_url + params.url,
             data: params.data,
             method: params.method, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-             header: {
-                 'content-type':'application/json',
-                 'appKey':config.appKey
-             }, // 设置请求的 header
-            success: (res)=>{
+            header: {
+                'content-type': 'application/json',
+                'appKey': config.appKey
+            }, // 设置请求的 header
+            success: (res) => {
                 let code = res.statusCode.toString();
-                if(code.startsWith('2')){
+                if (code.startsWith('2')) {
                     params.success && params.success(res.data);
                 } else {
                     this._show_error(code);
                 }
             },
-            fail: ()=>{
+            fail: () => {
                 this._show_error(1);
             },
-            complete: ()=>{
+            complete: () => {
                 // complete
             }
         })
     }
 
-    _show_error(status){
-        if(!status){
+    _show_error(status) {
+        if (!status) {
             status = 1;
         }
         wx.showToast({
@@ -50,4 +52,6 @@ class HTTP {
     }
 }
 
-export {HTTP}
+export {
+    HTTP
+}

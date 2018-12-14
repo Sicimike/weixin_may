@@ -1,18 +1,18 @@
 /* components/like/index.wxss */
 
-.container{
+.container {
     display: inline-flex;
     flex-direction: row;
     padding: 10rpx;
     width: 90rpx;
 }
 
-.container image{
+.container image {
     width: 32rpx;
     height: 28rpx;
 }
 
-.container text{
+.container text {
     /* font-family: "PingFangSC-Thin"; */
     font-size: 24rpx;
     line-height: 24rpx;
