@@ -39,12 +39,23 @@ Page({
     likeModel.like(behavior, this.data.classic.id, this.data.classic.type);
   },
 
-  onNext: function (event) {
-
+  onPrevious: function (event) {
+    this._updateClassic('previous');
   },
 
-  onPrevious: function (event) {
+  onNext: function (event) {
+    this._updateClassic('next');
+  },
 
+  _updateClassic: function(nextOrPre){
+    let index = this.data.classic.index;
+    classicModel.getClassic(index, nextOrPre, (res) => {
+      this.setData({
+        classic: res.data,
+        first: classicModel.isFirst(res.data.index),
+        latest: classicModel.isLatest(res.data.index)
+      });
+    });
   },
 
   /**
