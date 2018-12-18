@@ -8,7 +8,7 @@ Component({
       type: Boolean
     },
     count: {
-      type: Number
+      type: String
     }
   },
 
@@ -30,7 +30,7 @@ Component({
       let count = this.properties.count;
 
       count = like ? count - 1 : count + 1;
-
+      
       //给页面上的变量赋值
       this.setData({
         count: count,
