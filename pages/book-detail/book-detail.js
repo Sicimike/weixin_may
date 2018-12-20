@@ -21,30 +21,44 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    //加载提示
+    wx.showLoading();
+
     const bid = options.bid;
     const detail = bookModel.getDetail(bid);
     const comments = bookModel.getComment(bid);
     const likeStatus = bookModel.getLikeStatus(bid);
 
-    detail.then((res) => {
-      this.setData({
-        book: res.data
+    Promise.all([detail, comments, likeStatus])
+      .then(res => {
+        this.setData({
+          book: res[0].data,
+          comments: res[1].data,
+          likeStatus: res[2].data.likeStatus,
+          likeCount: res[2].data.favNums
+        });
+        wx.hideLoading();
       });
-    });
 
-    comments.then((res) => {
-      console.log(res);
-      this.setData({
-        comments: res.data
-      });
-    });
+    // detail.then((res) => {
+    //   this.setData({
+    //     book: res.data
+    //   });
+    // });
 
-    likeStatus.then((res) => {
-      this.setData({
-        likeStatus: res.data.likeStatus,
-        favNums: res.data.favNums
-      });
-    });
+    // comments.then((res) => {
+    //   this.setData({
+    //     comments: res.data
+    //   });
+    // });
+
+    // likeStatus.then((res) => {
+    //   this.setData({
+    //     likeStatus: res.data.likeStatus,
+    //     likeCount: res.data.favNums
+    //   });
+    // });
 
   },
 

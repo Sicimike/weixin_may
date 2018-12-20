@@ -1,0 +1,20 @@
+/**
+ * 截取数组固定长度
+ * @param array 
+ * @param length 
+ */
+var limit = function (array, length) {
+    return array.slice(0, length);
+}
+
+var substring = function (str, start, length) {
+    if (!str) {
+        return;
+    }
+    return str.substring(start, length);
+}
+
+module.exports = {
+    limit: limit,
+    substring: substring
+}
