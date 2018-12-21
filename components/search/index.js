@@ -1,8 +1,12 @@
 import {
   KeywordModel
 } from '../../models/keyword.js'
+import {
+  BookModel
+} from '../../models/book.js'
 
 const keywordModel = new KeywordModel();
+const bookModel = new BookModel();
 
 Component({
   /**
@@ -17,7 +21,9 @@ Component({
    */
   data: {
     historyWords: [],
-    hotWords: []
+    hotWords: [],
+    dataArray: [],
+    searching: false
   },
 
   /**
@@ -44,9 +50,37 @@ Component({
     onCancel: function (event) {
       this.triggerEvent('cancel', {}, {});
     },
+
+    onDelete: function (event) {
+      this.setData({
+        searching: false
+      });
+    },
+
     onConfirm: function (event) {
-      const word = event.detail.value;
-      keywordModel.addToHistory(word);
+      this.setData({
+        searching: true
+      });
+
+      const word = event.detail.value || event.detail.text;
+      if (!word) {
+        wx.showToast({
+          title: '请输入内容',
+          icon: 'none'
+        });
+        this.setData({
+          searching: false
+        });
+        return;
+      }
+      bookModel.search(0, word)
+        .then(res => {
+          this.setData({
+            dataArray: res.data,
+            q: word
+          });
+          keywordModel.addToHistory(word);
+        })
     }
   }
 })
