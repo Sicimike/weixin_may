@@ -13,7 +13,10 @@ Component({
    * 组件的属性列表
    */
   properties: {
-
+    more: {
+      type: Number,
+      observer: 'loadMore'
+    }
   },
 
   /**
@@ -47,6 +50,20 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    loadMore: function () {
+      if (!this.data.q) {
+        return;
+      }
+      const length = this.data.dataArray.length;
+      bookModel.search(length, this.data.q)
+        .then(res => {
+          const tempArray = this.data.dataArray.concat(res.data);
+          this.setData({
+            dataArray: tempArray
+          });
+        });
+    },
+
     onCancel: function (event) {
       this.triggerEvent('cancel', {}, {});
     },
