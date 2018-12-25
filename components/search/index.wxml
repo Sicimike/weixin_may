@@ -7,6 +7,7 @@
         </view>
         <view bind:tap="onCancel" class='cancel'>取消</view>
     </view>
+    
     <view wx:if="{{!searching}}">
         <view class="history">
             <view class="title">
@@ -31,9 +32,14 @@
             </view>
         </view>
     </view>
+
     <view wx:if="{{searching}}" class="books-container">
         <block wx:for="{{dataArray}}" wx:key="{{item.id}}">
             <v-book showLike="{{false}}" book="{{item}}" class="book" />
         </block>
     </view>
+
+    <v-loading class="loading-center" wx:if="{{loadingCenter}}"/>
+    <v-loading class="loading" wx:if="{{loading}}"/>
+    <text wx:if="{{noneResult}}" class="empty-tip">没有搜索到书籍</text>
 </view>

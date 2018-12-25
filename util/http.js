@@ -24,7 +24,7 @@ class HTTP {
                 'appKey': config.appKey
             }, // 设置请求的 header
             success: (res) => {
-                let code = res.statusCode.toString();
+                let code = res.data.code.toString();
                 if (code.startsWith('2')) {
                     params.success && params.success(res.data);
                 } else {
