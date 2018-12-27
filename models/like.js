@@ -3,21 +3,22 @@ import {
 } from '../util/http.js'
 
 class LikeModel extends HTTP {
-    like(behavior, artId, category) {
+    like(openid, behavior, artId, category) {
         let url = behavior == 'like' ? 'like' : 'like/cancel';
         this.request({
             url: url,
             method: 'POST',
             data: {
                 artId: artId,
-                type: category
+                type: category,
+                openid: openid
             }
         });
     }
 
-    getClassicLikeStatus(artId, category, sCallback) {
+    getClassicLikeStatus(openid, artId, category, sCallback) {
         this.request({
-            url: 'classic/' + category + '/' + artId + '/favor',
+            url: 'classic/' + category + '/' + artId + '/' + openid + '/favor',
             success: sCallback
         });
     }

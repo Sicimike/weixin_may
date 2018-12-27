@@ -49,6 +49,7 @@ Page({
 
   onGetUserInfo: function (event) {
     const userInfo = event.detail.userInfo;
+    //console.log(userInfo);
     //用户拒绝授权
     if (!userInfo) {
       return;
@@ -63,13 +64,14 @@ Page({
       success: function (res) {
         userModel.doLogin(res.code)
           .then(res => {
-            console.log(res);
+            // console.log(res);
             if (!res.data.errcode) {
               //在界面上设置用户信息
               _this.setData({
                 userInfo,
                 authorized: true
               });
+              wx.setStorageSync('userInfo', res.data);
             } else {
               wx.showToast({
                 title: '网络异常',

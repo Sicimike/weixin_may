@@ -39,8 +39,21 @@ Page({
    * 自定义事件
    */
   onLike: function (event) {
+    const userInfo = wx.getStorageSync('userInfo');
+    if (!userInfo) {
+      wx.switchTab({
+        url: '/pages/my/my',
+        success: function (res) {
+          wx.showToast({
+            title: '请点击头像授权',
+            icon: 'none'
+          });
+        }
+      })
+      return;
+    }
     let behavior = event.detail.behavior;
-    likeModel.like(behavior, this.data.classic.id, this.data.classic.type);
+    likeModel.like(userInfo.openid, behavior, this.data.classic.id, this.data.classic.type);
   },
 
   onPrevious: function (event) {
@@ -64,7 +77,7 @@ Page({
   },
 
   _getLikeStatus: function (artId, category) {
-    likeModel.getClassicLikeStatus(artId, category, (res)=>{
+    likeModel.getClassicLikeStatus(artId, category, (res) => {
       this.setData({
         likeCount: res.data.fav_nums,
         likeStatus: res.data.like_status
