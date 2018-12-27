@@ -12,19 +12,24 @@ const tips = {
 //封装http请求
 class HTTP {
 
-    request({url,data={},method='GET'}){
-        return new Promise((resolve, reject)=>{
-            this._request(url,resolve,reject,data, method)
+    request({
+        url,
+        data = {},
+        method = 'GET',
+        contentType = 'application/json'
+    }) {
+        return new Promise((resolve, reject) => {
+            this._request(url, resolve, reject, data, method, contentType)
         })
     }
 
-    _request(url, resolve, reject, data = {}, method = 'GET') {
+    _request(url, resolve, reject, data = {}, method = 'GET', contentType = 'application/json') {
         wx.request({
             url: config.api_base_url + url,
             data: data,
             method: method, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
             header: {
-                'content-type': 'application/json',
+                'content-type': contentType,
                 'appKey': config.appKey
             }, // 设置请求的 header
             success: (res) => {
