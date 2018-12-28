@@ -15,12 +15,15 @@ class HTTP {
         if (!params.method) {
             params.method = 'GET';
         }
+        if (!params.contentType) {
+            params.contentType = 'application/json';
+        }
         wx.request({
             url: config.api_base_url + params.url,
             data: params.data,
-            method: params.method, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+            method: params.method, 
             header: {
-                'content-type': 'application/json',
+                'content-type': params.contentType,
                 'appKey': config.appKey
             }, // 设置请求的 header
             success: (res) => {

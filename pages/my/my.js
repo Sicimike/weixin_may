@@ -26,8 +26,6 @@ Page({
 
   onLoad(options) {
     this.userAuthorized();
-    this.getMyBookCount();
-    this.getMyFavor();
   },
 
   userAuthorized() {
@@ -41,7 +39,11 @@ Page({
                 userInfo: data.userInfo
               })
             }
-          })
+          });
+
+          this.getMyBookCount();
+          this.getMyFavor();
+
         }
       }
     })
@@ -62,6 +64,7 @@ Page({
     let _this = this;
     wx.login({
       success: function (res) {
+        //后台登录
         userModel.doLogin(res.code)
           .then(res => {
             // console.log(res);
@@ -72,6 +75,8 @@ Page({
                 authorized: true
               });
               wx.setStorageSync('userInfo', res.data);
+              this.getMyBookCount();
+              this.getMyFavor();
             } else {
               wx.showToast({
                 title: '网络异常',

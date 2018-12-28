@@ -26,7 +26,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    classicModel.getLatest((res) => {
+    //判断用户是否授权
+    const userInfo = wx.getStorageSync('userInfo');
+    let openid = '';
+    if (userInfo) {
+      openid = userInfo.openid;
+    }
+    classicModel.getLatest(openid, (res) => {
       this.setData({
         classic: res.data,
         likeCount: res.data.fav_nums,
@@ -39,6 +45,7 @@ Page({
    * 自定义事件
    */
   onLike: function (event) {
+    //判断用户是否授权
     const userInfo = wx.getStorageSync('userInfo');
     if (!userInfo) {
       wx.switchTab({
@@ -65,9 +72,23 @@ Page({
   },
 
   _updateClassic: function (nextOrPre) {
+    //判断用户是否授权
+    const userInfo = wx.getStorageSync('userInfo');
+    if (!userInfo) {
+      wx.switchTab({
+        url: '/pages/my/my',
+        success: function (res) {
+          wx.showToast({
+            title: '请点击头像授权',
+            icon: 'none'
+          });
+        }
+      })
+      return;
+    }
     let index = this.data.classic.index;
-    classicModel.getClassic(index, nextOrPre, (res) => {
-      this._getLikeStatus(res.data.id, res.data.type);
+    classicModel.getClassic(userInfo.openid, index, nextOrPre, (res) => {
+      this._getLikeStatus(userInfo.openid, res.data.id, res.data.type);
       this.setData({
         classic: res.data,
         first: classicModel.isFirst(res.data.index),
@@ -76,61 +97,13 @@ Page({
     });
   },
 
-  _getLikeStatus: function (artId, category) {
-    likeModel.getClassicLikeStatus(artId, category, (res) => {
+  _getLikeStatus: function (openid, artId, category) {
+    likeModel.getClassicLikeStatus(openid, artId, category, (res) => {
       this.setData({
         likeCount: res.data.fav_nums,
         likeStatus: res.data.like_status
       });
     });
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
   }
+
 })

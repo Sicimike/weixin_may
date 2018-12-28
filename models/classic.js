@@ -2,10 +2,16 @@ import {
     HTTP
 } from '../util/http.js'
 
+const contentType = 'application/x-www-form-urlencoded';
+
 class ClassicModel extends HTTP {
-    getLatest(sCallBack) {
+    getLatest(openid, sCallBack) {
         this.request({
             url: 'classic/latest',
+            data: {
+                openid: openid
+            },
+            contentType: contentType,
             success: (res) => {
                 sCallBack(res);
                 wx.setStorageSync('latest', res.data.index);
@@ -16,12 +22,16 @@ class ClassicModel extends HTTP {
         });
     }
 
-    getClassic(index, nextOrPre, sCallBack) {
+    getClassic(openid, index, nextOrPre, sCallBack) {
         let key = nextOrPre == 'next' ? this._getKey(index + 1) : this._getKey(index - 1);
         let classic = wx.getStorageSync(key);
         if (!classic) {
             this.request({
                 url: 'classic/' + index + '/' + nextOrPre,
+                data: {
+                    openid: openid
+                },
+                contentType: contentType,
                 success: (res) => {
                     wx.setStorageSync(this._getKey(res.data.index), res.data);
                     sCallBack(res);
