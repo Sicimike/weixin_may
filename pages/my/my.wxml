@@ -10,13 +10,13 @@
     </view>
 
     <view class="about-container">
-        <view bind:tap="onJumpToAbout" class="about-us">
+        <view bind:tap="onGetSourceCode" class="about-us">
             <image src="/images/my/about.png" />
-            <text class="description">关于作者</text>
+            <text class="description">源码</text>
         </view>
         <view class="about-us">
-            <text class="book-num">{{bookCount}}</text>
-            <text class="description">喜欢的书</text>
+            <text class="book-num">{{classicCount}}</text>
+            <text class="description">喜欢</text>
         </view>
     </view>
 

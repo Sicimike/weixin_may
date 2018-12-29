@@ -46,9 +46,25 @@ class ClassicModel extends HTTP {
 
     }
 
-    getMyFavor(success) {
+    getMyClassicCount(openid, success) {
+        const param = {
+            url: 'classic/favor/count',
+            data: {
+                openid: openid
+            },
+            contentType: contentType.form,
+            success: success
+        };
+        this.request(param);
+    }
+
+    getMyFavor(openid, success) {
         const param = {
             url: 'classic/favor',
+            data: {
+                openid: openid
+            },
+            contentType: contentType,
             success: success
         }
         this.request(param);

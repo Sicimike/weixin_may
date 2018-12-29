@@ -3,6 +3,10 @@ import {
 }
 from '../util/http-p.js'
 
+const contentType = {
+    form: 'application/x-www-form-urlencoded'
+}
+
 class BookModel extends HTTP {
     getHotList() {
         return this.request({
@@ -39,11 +43,6 @@ class BookModel extends HTTP {
         });
     }
 
-    getMyBookCount() {
-        return this.request({
-            url: 'book/favor/count'
-        });
-    }
 }
 
 export {

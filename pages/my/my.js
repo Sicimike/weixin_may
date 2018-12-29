@@ -12,6 +12,8 @@ let classicModel = new ClassicModel();
 let bookModel = new BookModel();
 let userModel = new UserModel();
 
+const sourceCodePath = 'https://github.com/Sicimike/weixin_may';
+
 Page({
 
   /**
@@ -24,7 +26,7 @@ Page({
     classics: null
   },
 
-  onLoad(options) {
+  onShow(options) {
     this.userAuthorized();
   },
 
@@ -41,9 +43,11 @@ Page({
             }
           });
 
-          this.getMyBookCount();
-          this.getMyFavor();
-
+          let userInfo = wx.getStorageSync('userInfo');
+          if (userInfo) {
+            this.getMyClassicCount(userInfo.openid);
+            this.getMyFavor(userInfo.openid);
+          }
         }
       }
     })
@@ -75,8 +79,8 @@ Page({
                 authorized: true
               });
               wx.setStorageSync('userInfo', res.data);
-              this.getMyBookCount();
-              this.getMyFavor();
+              _this.getMyClassicCount(res.data.openid);
+              _this.getMyFavor(res.data.openid);
             } else {
               wx.showToast({
                 title: '网络异常',
@@ -92,17 +96,38 @@ Page({
     })
   },
 
-  getMyBookCount: function () {
-    bookModel.getMyBookCount()
-      .then(res => {
-        this.setData({
-          bookCount: res.data
-        });
-      })
+  onGetSourceCode: function () {
+    wx.showActionSheet({
+      itemList: [sourceCodePath, '拷贝链接'],
+      success: function (event) {
+        if (event.tapIndex === 1) {
+          //拷贝
+          wx.setClipboardData({
+            data: sourceCodePath,
+            success: function () {
+              wx.showToast({
+                title: '拷贝成功',
+                icon: 'none'
+              });
+            }
+          });
+        }
+      }
+    });
+
+
   },
 
-  getMyFavor: function () {
-    classicModel.getMyFavor(res => {
+  getMyClassicCount: function (openid) {
+    classicModel.getMyClassicCount(openid, res => {
+      this.setData({
+        classicCount: res.data
+      });
+    });
+  },
+
+  getMyFavor: function (openid) {
+    classicModel.getMyFavor(openid, res => {
       this.setData({
         classics: res.data
       });
